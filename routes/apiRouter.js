@@ -4,20 +4,20 @@ const apiRouter = Router()
 /*
  * NOTE: the model for the data-table should not have the name 'Resource'
  */
-let Resource = require('../db/schema.js').Resource
+let Product = require('../db/schema.js').Product
 
 apiRouter
 /*
  * NOTE: the route should have a name that matches the name of the data-table
  */
- .get('/resources', function(req, res){
-   Resource.find(req.query , function(err, results){
+ .get('/products', function(req, res){
+   Product.find(req.query , function(err, results){
      if(err) return res.json(err)
      res.json(results)
    })
  })
- .post('/resources', function(req, res){
-     let newRecord = new Resource(req.body)
+ .post('/products', function(req, res){
+     let newRecord = new Product(req.body)
 
      newRecord.save(function(err, record){
         if(err) return res.status(500).send('server/db error on attempt to save user to db')
@@ -29,16 +29,16 @@ apiRouter
 
 
 apiRouter
- .get('/resources/:_id', function(req, res){
-   Resource.findById(req.params._id, "-password", function(err, record){
+ .get('/products/:_id', function(req, res){
+   Product.findById(req.params._id, "-password", function(err, record){
      if(err || !record ) return res.json(err)
      res.json(record)
    })
  })
 
- .put('/resources/:_id', function(req, res){
+ .put('/products/:_id', function(req, res){
 
-   Resource.findByIdAndUpdate(req.params._id, req.body, function(err, record){
+   Product.findByIdAndUpdate(req.params._id, req.body, function(err, record){
        if (err) {
          res.status(500).send(err)
        }
@@ -51,8 +51,8 @@ apiRouter
    })
  })
 
- .delete('/resources/:_id', function(req, res){
-   Resource.remove({ _id: req.params._id}, (err) => {
+ .delete('/products/:_id', function(req, res){
+   Product.remove({ _id: req.params._id}, (err) => {
      if(err) return res.json(err)
      res.json({
        msg: `record ${req.params._id} successfully deleted`,
